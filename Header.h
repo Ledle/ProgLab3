@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+using namespace std;
 class test;
 class question;
 class group;
@@ -17,16 +19,18 @@ public:
 	void deltest(int numbertest);
 	void delgroup(int numbergroup);
 	void show();
+	void input();
 };
 class question {
 private:
-	char* text, * answer;
+	string text, answer;
 	int value;
 public:
-	question();//ввод в консоль
-	question(const char* text, const char* answer, int value);
-	void change(const char* text, const char* answer, int value);
+	question();
+	question(string text, string answer, int value);
+	void change(string text, string answer, int value);
 	void show();
+	void input();
 };
 class test {
 private:
@@ -35,11 +39,12 @@ private:
 	question quest;
 	discipline discip;
 public:
-	test();//ввод в консоль
+	test();
 	test(question questions[], discipline* disc, int n, const char* name);
 	int addresult(int login, int result);
 	void rename(const char* name);
 	void show();
+	void input();
 };
 class user {
 private:
@@ -47,12 +52,13 @@ private:
 	char* name;
 	group* grp;
 public:
-	user();//ввод в консоль
+	user();
 	user(int login, int password, const char* name);
 	void rename(const char* name);
 	void changepass(int password);
 	void changegroup(group* gr);
 	void show();
+	void input();
 };
 class group {
 private:
@@ -69,4 +75,5 @@ public:
 	void deldisc(int numberdiscip);
 	void delstudent(int numberuser);
 	void show();
+	void input();
 };

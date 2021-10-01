@@ -2,5 +2,6 @@
 #include "Header.h"
 int main()
 {
-    std::cout << "Hello World!\n";
+	question q("Hello","pidor",14);
+	q.show();
 }

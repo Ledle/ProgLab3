@@ -7,7 +7,7 @@ class group;
 class discipline {
 private:
 	int ntests,ngroups;
-	char* name;
+	string name;
 	test** tst;
 	group** groups;
 public:
@@ -15,6 +15,7 @@ public:
 	discipline(const char* name);
 	int addgroup(group* gr);
 	int addtest(test* tst);
+	string getname();
 	void rename(const char* name);
 	void deltest(int numbertest);
 	void delgroup(int numbergroup);
@@ -29,51 +30,59 @@ public:
 	question();
 	question(string text, string answer, int value);
 	void change(string text, string answer, int value);
+	string gettext();
+	string getanswer();
+	int getvalue();
 	void show();
 	void input();
 };
 class test {
 private:
 	int nres, nquests, * result;
-	char* name;
-	question quest;
-	discipline discip;
+	string name;
+	question* quest;
+	discipline* discip;
 public:
 	test();
 	test(question questions[], discipline* disc, int n, const char* name);
 	int addresult(int login, int result);
 	void rename(const char* name);
+	string getname();
 	void show();
 	void input();
 };
 class user {
 private:
 	int login, password;
-	char* name;
+	string name;
 	group* grp;
 public:
 	user();
-	user(int login, int password, const char* name);
-	void rename(const char* name);
+	user(int login, int password, string name);
+	void rename(string name);
 	void changepass(int password);
 	void changegroup(group* gr);
 	void show();
 	void input();
+	string getname();
+	int getlogin();
+
 };
 class group {
 private:
 	user** students;
 	discipline** disciplines;
 	int nstudents, ndiscips;
-	char* name;
+	string name;
 public:
 	group();
-	group(const char* name);
+	group(string name);
 	void adddisc(discipline* disc);
 	void adduser(user* student);
-	void rename(const char* name);
+	void rename(string name);
 	void deldisc(int numberdiscip);
 	void delstudent(int numberuser);
 	void show();
 	void input();
+	string getname();
 };

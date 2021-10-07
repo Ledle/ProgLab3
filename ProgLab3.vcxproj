@@ -139,11 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Funcs.cpp" />
+    <ClCompile Include="discipline.cpp" />
+    <ClCompile Include="group.cpp" />
     <ClCompile Include="ProgLab3.cpp" />
+    <ClCompile Include="question.cpp" />
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="discipline.h" />
+    <ClInclude Include="group.h" />
+    <ClInclude Include="question.h" />
+    <ClInclude Include="test.h" />
+    <ClInclude Include="user.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

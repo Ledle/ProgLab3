@@ -1,5 +1,9 @@
 ﻿#include <iostream>
-#include "Header.h"
+#include "discipline.h"
+#include "test.h"
+#include "group.h"
+#include "question.h"
+#include "user.h"
 int main()
 {
 	discipline disc("Math");

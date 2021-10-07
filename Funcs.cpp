@@ -2,6 +2,14 @@
 #include <string>
 #include "Header.h"
 using namespace std;
+
+question* qsts(int n, question a, ...) {
+	question* q = new question[n];
+	question* src = &a;
+	memcpy(q, src, sizeof(question) * n);
+	return q;
+}
+
 question::question() {
 	this->text = "";
 	this->answer = "";
@@ -43,19 +51,17 @@ int question::getvalue() {
 
 test::test() {
 	this->name = "";
-	this->discip = NULL;
 	this->quest;
 	this->nquests = 0;
-	this->result = new int;
+	this->result = new int[1];
 	this->nres = 0;
 }
-test::test(question questions[], discipline* disc, int n, const char* name) {
+test::test(question questions[], int n, const char* name) {
 	this->name = name;
 	this->quest = new question [n];
 	memcpy(this->quest, questions, sizeof(question) * n);
 	this->nquests = n;
-	this->discip = disc;
-	this->result = NULL;
+	this->result = new int[1];
 	this->nres = 0;
 }
 void test::rename(const char * name) {
@@ -63,11 +69,11 @@ void test::rename(const char * name) {
 }
 int test::addresult(int login, int result){
 	int* buf = new int[this->nres*2 + 2];
-	memcpy(buf, this->result, this->nres*2);
+	memcpy(buf, this->result, sizeof(int)*(this->nres)*2);
 	buf[this->nres * 2] = login;
 	buf[this->nres * 2 + 1] = result;
 	this->nres++;
-	delete this->result;
+	delete [] this->result;
 	this->result = buf;
 	return this->nres-1;
 }
@@ -104,6 +110,9 @@ void test::input() {
 		this->quest[i].input();
 	}
 }
+question* test::getquest(int n) {
+	return this->quest+n;
+}
 
 user::user() {
 	this->name = "";
@@ -124,7 +133,17 @@ void user::changepass(int password) {
 	this->password = password;
 }
 void user::changegroup(group* gr) {
-	this->grp = gr;
+	group* g;
+	if (this->grp != gr) {
+		g = this->grp;
+		this->grp = gr;
+		if (gr != NULL) {
+			gr->adduser(this);
+		}
+		if (g != NULL) { 
+			g->delstudent(this->login);
+		}
+	}
 }
 void user::show() {
 	printf_s("User %s:\n", this->name.c_str());
@@ -146,59 +165,109 @@ void user::input() {
 string user::getname() {
 	return this->name;
 }
+int user::getlogin() {
+	return this->login;
+}
+group* user::getgroup() {
+	return this->grp;
+}
 
 group::group() {
 	this->name = "";
-	this->disciplines = NULL;
-	this->students = NULL;
+	this->disciplines = new discipline*;
+	this->students = new user*;
 	this->ndiscips = 0;
 	this->nstudents = 0;
 }
 group::group(string name) {
 	this->name = name;
-	this->disciplines = NULL;
-	this->students = NULL;
+	this->disciplines = new discipline*;
+	this->students = new user*;
 	this->ndiscips = 0;
 	this->nstudents = 0;
 }
-void group::adddisc(discipline* disc) {
-	discipline** buf = new  discipline* [this->ndiscips + 1];
-	memcpy(buf, this->disciplines, sizeof(discipline)*(this->ndiscips));
+int group::adddisc(discipline* disc) {
+	bool f = false;
+	int i;
+	for (i = 0; i < this->ndiscips; i++) {
+		if (this->disciplines[i]->getname() == disc->getname()) {
+			f = true;
+			break;
+		}
+	}
+	if (f) { return i; }
+	discipline** buf = new  discipline*[this->ndiscips + 1];
+	memcpy(buf, this->disciplines, sizeof(discipline*)*(this->ndiscips));
 	buf[this->ndiscips] = disc;
 	delete this->disciplines;
 	this->disciplines = buf;
 	this->ndiscips++;
+	disc->addgroup(this);
+	return this->ndiscips - 1;
 }
-void group::adduser(user* student) {
+int group::adduser(user* student) {
+	bool f = false;
+	int i;
+	for (i = 0; i < this->nstudents; i++) {
+		if (this->students[i]->getlogin() == student->getlogin()) {
+			f = true;
+			break;
+		}
+	}
+	if (f) { return i; }
 	user** buf = new  user * [this->nstudents + 1];
-	memcpy(buf, this->students, sizeof(user) * (this->nstudents));
+	memcpy(buf, this->students, sizeof(user*) * (this->nstudents));
 	buf[this->nstudents] = student;
 	delete this->students;
 	this->students = buf;
 	this->nstudents++;
+	student->changegroup(this);
+	return this->nstudents - 1;
 }
 void group::rename(string name) {
 	this->name = name;
 }
-void group::deldisc(int numberdiscip) {
-	this->ndiscips--;
-	for (int i = numberdiscip; i < this->ndiscips; i++) {
-		this->disciplines[i] = this->disciplines[i + 1];
+void group::deldisc(string name) {
+	discipline* d;
+	int numberdiscip=-1;
+	for (int i = 0; i < this->ndiscips; i++) {
+		if (name == this->disciplines[i]->getname()) {
+			numberdiscip = i;
+			break;
+		}
 	}
-	discipline** buf = new discipline* [this->ndiscips];
-	memcpy(buf, this->disciplines, this->ndiscips);
-	delete this->disciplines;
-	this->disciplines = buf;
+	if (numberdiscip != -1) {
+		d = this->disciplines[numberdiscip];
+		this->ndiscips--;
+		for (int i = numberdiscip; i < this->ndiscips; i++) {
+			this->disciplines[i] = this->disciplines[i + 1];
+		}
+		discipline** buf = new discipline * [this->ndiscips];
+		memcpy(buf, this->disciplines, sizeof(discipline*) * this->ndiscips);
+		d->delgroup(this->name);
+		delete this->disciplines;
+		this->disciplines = buf;
+	}
 }
-void group::delstudent(int numberuser) {
-	this->nstudents--;
-	for (int i = numberuser; i < this->nstudents; i++) {
-		this->students[i] = this->students[i + 1];
+void group::delstudent(int login) {
+	int numberuser=-1;
+	for (int i = 0; i < this->nstudents; i++) {
+		if (this->students[i]->getlogin() == login) {
+			numberuser = i;
+			break;
+		}
 	}
-	user** buf = new user * [this->nstudents];
-	memcpy(buf, this->students, this->nstudents);
-	delete this->students;
-	this->students = buf;
+	if (numberuser != -1) {
+		this->students[numberuser]->changegroup(NULL);
+		this->nstudents--;
+		for (int i = numberuser; i < this->nstudents; i++) {
+			this->students[i] = this->students[i + 1];
+		}
+		user** buf = new user * [this->nstudents];
+		memcpy(buf, this->students, sizeof(user*)*this->nstudents);
+		delete [] this->students;
+		this->students = buf;
+	}
 }
 void group::show() {
 	printf_s("Group %s:\n", this->name.c_str());
@@ -218,7 +287,7 @@ void group::input() {
 	printf_s("Enter name of group: ");
 	getline(cin, this->name);
 	printf_s("Enter number of students: ");
-	scanf_s("%d", this->nstudents);
+	scanf_s("%d", &(this->nstudents));
 	while (getchar() != '\n');
 	this->students = new user * [this->nstudents];
 	for (int i = 0; i < this->nstudents; i++) {
@@ -227,5 +296,120 @@ void group::input() {
 	}
 }
 string group::getname() {
+	return this->name;
+}
+user* group::getstudent(int n) {
+	if (n >= this->nstudents) {
+		return NULL;
+	}
+	return this->students[n];
+}
+
+discipline::discipline() {
+	this->name = "";
+	this->groups = new group*;
+	this->tst = new test*;
+	this->ntests = 0;
+	this->ngroups = 0;
+}
+discipline::discipline(string name) {
+	this->name = name;
+	this->groups = new group*;
+	this->tst = new test*;
+	this->ntests = 0;
+	this->ngroups = 0;
+}
+int discipline::addgroup(group* gr) {
+	bool f = false;
+	int i;
+	for (i = 0; i < this->ngroups; i++) {
+		if (this->groups[i]->getname() == gr->getname()) {
+			f = true;
+			break;
+		}
+	}
+	if (f) { return i; }
+	group** buf = new group * [this->ngroups + 1];
+	memcpy(buf, this->groups, sizeof(group*) * this->ngroups);
+	delete this->groups;
+	this->groups = buf;
+	this->groups[this->ngroups] = gr;
+	this->ngroups++;
+	gr->adddisc(this);
+	return this->ngroups;
+}
+int discipline::addtest(test* tst) {
+	test** buf = new test * [this->ntests + 1];
+	memcpy(buf, this->tst, sizeof(test*) * this->ntests);
+	delete this->tst;
+	this->tst = buf;
+	this->tst[this->ntests] = tst;
+	this->ntests++;
+	return this->ntests;
+}
+void discipline::rename(string name) {
+	this->name = name;
+}
+void discipline::deltest(string name) {
+	int numbertest = -1;
+	for (int i = 0; i < this->ntests; i++) {
+		if (name == this->tst[i]->getname()) {
+			numbertest = i;
+			break;
+		}
+	}
+	if (numbertest != -1) {
+		this->ntests--;
+		for (int i = numbertest; i < this->ntests; i++) {
+			this->tst[i] = this->tst[i + 1];
+		}
+		test** buf = new test * [this->ntests];
+		memcpy(buf, this->tst, sizeof(test*) * this->ntests);
+		delete this->tst;
+		this->tst = buf;
+	}
+}
+void discipline::delgroup(string name) {
+	int numbergroup = -1;
+	group* g;
+	for (int i = 0; i < this->ngroups; i++) {
+		if (name == this->groups[i]->getname()) {
+			numbergroup = i;
+			break;
+		}
+	}
+	if (numbergroup != -1) {
+		g = this->groups[numbergroup];
+		this->ngroups--;
+		for (int i = numbergroup; i < this->ngroups; i++) {
+			this->groups[i] = this->groups[i + 1];
+		}
+		group** buf = new group * [this->ngroups];
+		memcpy(buf, this->groups, sizeof(group*) * this->ngroups);
+		delete this->groups;
+		this->groups = buf;
+		g->deldisc(this->name);
+	}
+}
+void discipline::show() {
+	printf_s("Discipline %s:\n", this->name.c_str());
+	if (this->ngroups > 0) {
+		printf_s(" Groups:\n");
+		for (int i = 0; i < this->ngroups; i++) {
+			printf_s("  %d) %s\n", i, this->groups[i]->getname().c_str());
+		}
+	}
+	if (this->ntests >= 0) {
+		printf_s(" Tests: %d\n", this->ntests);
+	}
+}
+void discipline::input() {
+	printf_s("Enter name of discipline: ");
+	getline(cin, this->name);
+}
+test* discipline::gettest(int n) {
+	return this->tst[n];
+}
+string discipline::getname() {
 	return this->name;
 }

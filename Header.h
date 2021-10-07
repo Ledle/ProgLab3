@@ -12,15 +12,16 @@ private:
 	group** groups;
 public:
 	discipline();
-	discipline(const char* name);
+	discipline(string name);
 	int addgroup(group* gr);
 	int addtest(test* tst);
 	string getname();
-	void rename(const char* name);
-	void deltest(int numbertest);
-	void delgroup(int numbergroup);
+	void rename(string name);
+	void deltest(string name);
+	void delgroup(string name);
 	void show();
 	void input();
+	test* gettest(int n);
 };
 class question {
 private:
@@ -41,15 +42,15 @@ private:
 	int nres, nquests, * result;
 	string name;
 	question* quest;
-	discipline* discip;
 public:
 	test();
-	test(question questions[], discipline* disc, int n, const char* name);
+	test(question questions[], int n, const char* name);
 	int addresult(int login, int result);
 	void rename(const char* name);
 	string getname();
 	void show();
 	void input();
+	question* getquest(int n);
 };
 class user {
 private:
@@ -66,7 +67,7 @@ public:
 	void input();
 	string getname();
 	int getlogin();
-
+	group* getgroup();
 };
 class group {
 private:
@@ -77,12 +78,15 @@ private:
 public:
 	group();
 	group(string name);
-	void adddisc(discipline* disc);
-	void adduser(user* student);
+	int adddisc(discipline* disc);
+	int adduser(user* student);
 	void rename(string name);
-	void deldisc(int numberdiscip);
-	void delstudent(int numberuser);
+	void deldisc(string name);
+	void delstudent(int login);
 	void show();
 	void input();
 	string getname();
+	user* getstudent(int n);
 };
+
+question* qsts(int n, question a, ...);

@@ -12,13 +12,9 @@ int main()
 	group PI("PI");
 	user sergey(5613, 112233, "Sergey");
 	user john(9852, 541234, "John");
-	cout << "one";
 	PI.adduser(&sergey);
-	cout << "two";
 	PI.adduser(&john);
-	cout << "thre";
 	PI.adddisc(&disc);
-	cout << "two";
 	disc.gettest(0)->addresult(sergey.getlogin(), 50);
 	PI.show();
 	putchar('\n');

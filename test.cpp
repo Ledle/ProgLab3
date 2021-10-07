@@ -65,3 +65,8 @@ void test::input() {
 question* test::getquest(int n) {
 	return this->quest + n;
 }
+test::~test() {
+	if (this->result != NULL) {
+		delete[] this->result;
+	}
+}

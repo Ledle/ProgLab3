@@ -23,5 +23,6 @@ public:
 	void input();
 	string getname();
 	user* getstudent(int n);
+	~group();
 };
 

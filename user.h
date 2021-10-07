@@ -20,5 +20,6 @@ public:
 	string getname();
 	int getlogin();
 	group* getgroup();
+	~user();
 };
 

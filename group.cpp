@@ -134,3 +134,17 @@ user* group::getstudent(int n) {
 	}
 	return this->students[n];
 }
+group::~group() {
+	if (this->disciplines != NULL) {
+		for (int i = 0; i <= this->ndiscips; i++) {
+			this->disciplines[i]->delgroup(this->name);
+		}
+		delete[] this->disciplines;
+	}
+	if (this->students != NULL) {
+		for (int i = 0; i <= this->nstudents; i++) {
+			this->students[i]->changegroup(NULL);
+		}
+		delete[] this->students;
+	}
+}

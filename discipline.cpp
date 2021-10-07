@@ -110,3 +110,14 @@ test* discipline::gettest(int n) {
 string discipline::getname() {
 	return this->name;
 }
+discipline::~discipline() {
+	if (this->groups != NULL) {
+		for (int i = 0; i <= this->ngroups; i++) {
+			this->groups[i]->deldisc(this->name);
+			delete[] this->groups;
+		}
+	}
+	if (this->tst != NULL) {
+		delete[] this->tst;
+	}
+}

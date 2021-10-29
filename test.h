@@ -11,13 +11,12 @@ private:
 	question* quest;
 public:
 	test();
-	test(question questions[], int n, const char* name);
+	test(question questions[], int n, string name);
 	int addresult(int login, int result);
-	void rename(const char* name);
+	void rename(string name);
 	string getname();
 	void show();
 	void input();
 	question* getquest(int n);
-	~test();
 };
 

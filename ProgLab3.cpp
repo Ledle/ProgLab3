@@ -67,7 +67,7 @@ int main()
 	disc.show();
 	discipline discip;
 	discip.input();
-	test t1,t2;
+	test t1, t2;
 	t1.input();
 	t2.input();
 	discip.addtest(&t1);

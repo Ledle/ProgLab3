@@ -23,5 +23,5 @@ public:
 	void show();
 	void input();
 	test* gettest(int n);
-	~discipline();
+
 };

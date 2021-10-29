@@ -51,7 +51,7 @@ int group::adduser(user* student) {
 	delete this->students;
 	this->students = buf;
 	this->nstudents++;
-	student->changegroup(this);
+	student->changegroup(this);//разумное использование this
 	return this->nstudents - 1;
 }
 void group::rename(string name) {
@@ -133,18 +133,4 @@ user* group::getstudent(int n) {
 		return NULL;
 	}
 	return this->students[n];
-}
-group::~group() {
-	if (this->disciplines != NULL) {
-		for (int i = 0; i <= this->ndiscips; i++) {
-			this->disciplines[i]->delgroup(this->name);
-		}
-		delete[] this->disciplines;
-	}
-	if (this->students != NULL) {
-		for (int i = 0; i <= this->nstudents; i++) {
-			this->students[i]->changegroup(NULL);
-		}
-		delete[] this->students;
-	}
 }

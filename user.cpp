@@ -57,6 +57,6 @@ int user::getlogin() {
 group* user::getgroup() {
 	return this->grp;
 }
-user::~user() {
-	this->grp->delstudent(this->login);
+int user::getpass() {
+	return this->password;
 }

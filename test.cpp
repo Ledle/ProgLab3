@@ -8,7 +8,7 @@ test::test() {
 	this->result = new int[1];
 	this->nres = 0;
 }
-test::test(question questions[], int n, const char* name) {
+test::test(question questions[], int n, string name) {
 	this->name = name;
 	this->quest = new question[n];
 	memcpy(this->quest, questions, sizeof(question) * n);
@@ -16,7 +16,7 @@ test::test(question questions[], int n, const char* name) {
 	this->result = new int[1];
 	this->nres = 0;
 }
-void test::rename(const char* name) {
+void test::rename(string name) {
 	this->name = name;
 }
 int test::addresult(int login, int result) {
@@ -64,9 +64,4 @@ void test::input() {
 }
 question* test::getquest(int n) {
 	return this->quest + n;
-}
-test::~test() {
-	if (this->result != NULL) {
-		delete[] this->result;
-	}
 }

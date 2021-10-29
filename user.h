@@ -20,6 +20,6 @@ public:
 	string getname();
 	int getlogin();
 	group* getgroup();
-	~user();
+	int getpass();
 };
 

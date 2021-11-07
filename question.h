@@ -16,6 +16,9 @@ public:
 	int getvalue();
 	void show();
 	void input();
+	question operator+(int n);
+	question operator++(int);
+	question operator++();
 };
 
 question* qsts(int n, question a, ...);

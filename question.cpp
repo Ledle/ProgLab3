@@ -45,3 +45,16 @@ string question::getanswer() {
 int question::getvalue() {
 	return this->value;
 }
+question question::operator+(int n) {
+	this->value += n;
+	return *this;
+}
+question question::operator++() {
+	this->value++;
+	return *this;
+}
+question question::operator++(int) {
+	question b = *this;
+	this->value++;
+	return b;
+}

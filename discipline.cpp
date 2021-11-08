@@ -110,3 +110,28 @@ test* discipline::gettest(int n) {
 string discipline::getname() {
 	return this->name;
 }
+int discipline::count() {
+	int cnt=0;
+	group* buf;
+	discipline *dscs[128];
+	bool f;
+	dscs[cnt++] = this;
+	for (int i = 0; i < cnt; i++) {
+		for (int j = 0; j < dscs[i]->ngroups; j++) {
+			buf = dscs[i]->groups[j];
+			for (int k = 0; k < buf->ndiscips; k++) {
+				f = true;
+				for (int z = 0; z < cnt; z++) {
+					if (buf->disciplines[k]->name == dscs[z]->name) {
+						f = false;
+						break;
+					}
+				}
+				if (f) {
+					dscs[cnt++] = buf->disciplines[k];
+				}
+			}
+		}
+	}
+	return cnt;
+}

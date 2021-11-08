@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "discipline.h"
 using namespace std;
 class user;
 class discipline;
@@ -23,4 +24,5 @@ public:
 	void input();
 	string getname();
 	user* getstudent(int n);
+	friend int discipline::count();
 };

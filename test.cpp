@@ -65,3 +65,6 @@ void test::input() {
 question* test::getquest(int n) {
 	return this->quest + n;
 }
+question& test::getquest1(int n) {
+	return this->quest[n];
+}

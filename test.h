@@ -18,5 +18,6 @@ public:
 	void show();
 	void input();
 	question* getquest(int n);
+	question& getquest1(int n);
 };
 

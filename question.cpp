@@ -49,11 +49,11 @@ question question::operator+(int n) {
 	this->value += n;
 	return *this;
 }
-question question::operator++() {
+question question::operator++() {//префиксный
 	this->value++;
 	return *this;
 }
-question question::operator++(int) {
+question question::operator++(int) {//постфиксный
 	question b = *this;
 	this->value++;
 	return b;

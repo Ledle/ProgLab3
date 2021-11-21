@@ -25,5 +25,11 @@ int main()
 	for (int i = 0; i < 4; i++) {
 		b[i].adddisc(&(a[i+1]));
 	}
-	cout << a[0].count();
+	cout << a[0].count()<<endl;
+	question qst("Question", "Answer", 12);
+	test tst(&qst, 1, "Tst");
+	question* qs = tst.getquest(0);
+	qs->show();
+	tst.getquest1(0).change("Toxt", "Onswer", 21);
+	qs->show();
 }

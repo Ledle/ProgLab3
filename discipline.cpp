@@ -1,13 +1,15 @@
 #include "discipline.h"
 #include "group.h"
 #include "test.h"
-
+int discipline::ndiscips = 0;
+discipline** discipline::disciplines = new discipline*;
 discipline::discipline() {
 	this->name = "";
 	this->groups = new group*;
 	this->tst = new test*;
 	this->ntests = 0;
 	this->ngroups = 0;
+	adddisc(this);
 }
 discipline::discipline(string name) {
 	this->name = name;
@@ -15,6 +17,7 @@ discipline::discipline(string name) {
 	this->tst = new test*;
 	this->ntests = 0;
 	this->ngroups = 0;
+	adddisc(this);
 }
 int discipline::addgroup(group* gr) {
 	bool f = false;
@@ -134,4 +137,18 @@ int discipline::count() {
 		}
 	}
 	return cnt;
+}
+int discipline::numberof() {
+	return ndiscips;
+}
+discipline** discipline::list() {
+	return disciplines;
+}
+void discipline::adddisc(discipline* disc) {
+	discipline** buf = new discipline*[ndiscips];
+	memcpy(buf, disciplines, sizeof(discipline*) * ndiscips);
+	ndiscips++;
+	disciplines = new discipline * [ndiscips];
+	memcpy(disciplines, buf, sizeof(discipline*) * ndiscips);
+	disciplines[ndiscips - 1] = disc;
 }

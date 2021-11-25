@@ -1,13 +1,15 @@
 #include "group.h"
 #include "discipline.h"
 #include "user.h"
-
+int group::ngroups = 0;
+group** group::groups = new group*;
 group::group() {
 	this->name = "";
 	this->disciplines = new discipline*;
 	this->students = new user*;
 	this->ndiscips = 0;
 	this->nstudents = 0;
+	addgroup(this);
 }
 group::group(string name) {
 	this->name = name;
@@ -15,6 +17,7 @@ group::group(string name) {
 	this->students = new user*;
 	this->ndiscips = 0;
 	this->nstudents = 0;
+	addgroup(this);
 }
 int group::adddisc(discipline* disc) {
 	bool f = false;
@@ -133,4 +136,18 @@ user* group::getstudent(int n) {
 		return NULL;
 	}
 	return this->students[n];
+}
+int group::numberof() {
+	return ngroups;
+}
+group** group::list() {
+	return groups;
+}
+void group::addgroup(group* disc) {
+	group** buf = new group * [ngroups];
+	memcpy(buf, groups, sizeof(group*) * ngroups);
+	ngroups++;
+	groups = new group * [ngroups];
+	memcpy(groups, buf, sizeof(group*) * ngroups);
+	groups[ngroups - 1] = disc;
 }

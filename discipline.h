@@ -11,6 +11,8 @@ private:
 	string name;
 	test** tst;
 	group** groups;
+	static discipline** disciplines;//список всех дисциплин
+	static int ndiscips;//количество всех дисциплин
 public:
 	discipline();
 	discipline(string name);
@@ -24,4 +26,8 @@ public:
 	void input();
 	test* gettest(int n);
 	int count();
+	static discipline** list();//получение списка дисциплин
+	static int numberof();//получение количества дисциплин
+private:
+	void adddisc(discipline*);//вспомогательная функция для добавления в список
 };

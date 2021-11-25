@@ -6,30 +6,22 @@
 #include "user.h"
 int main()
 {
-	question q("Question", "Answer", 11);
-	q.show();
-	(q++).show();
-	q.show();
-	(q + 15).show();
-	q.show();
-	discipline a[5];
-	a[0].rename("A");
-	a[1].rename("B");
-	a[2].rename("C");
-	a[3].rename("D");
-	a[4].rename("E");
-	group b[5];
-	for (int i = 0; i < 5; i++) {
-		b[i].adddisc(&(a[i]));
-	}
-	for (int i = 0; i < 4; i++) {
-		b[i].adddisc(&(a[i+1]));
-	}
-	cout << a[0].count()<<endl;
-	question qst("Question", "Answer", 12);
-	test tst(&qst, 1, "Tst");
-	question* qs = tst.getquest(0);
-	qs->show();
-	tst.getquest1(0).change("Toxt", "Onswer", 21);
-	qs->show();
+    discipline* d1 = new discipline("Math");
+    discipline* d2 = new discipline("Physic");
+    discipline* d3 = new discipline("Programming");
+    discipline* d4 = new discipline("Economics");
+    group* g1 = new group("PI01");
+    group* g2 = new group("PI02");
+    group* g3 = new group("PI03");
+    group* g4 = new group("PI04");
+    cout << "groups:"<<endl;
+    for (int i=0;i < group::numberof(); i++)
+    {
+        group::list()[i]->show();
+    }
+    cout << "disciplines: "<<endl;
+    for (int i = 0; i < discipline::numberof(); i++)
+    {
+        discipline::list()[i]->show();
+    }
 }

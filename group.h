@@ -12,6 +12,8 @@ private:
 	discipline** disciplines;
 	int nstudents, ndiscips;
 	string name;
+	static int ngroups;//количество групп
+	static group** groups;//список всех групп
 public:
 	group();
 	group(string name);
@@ -25,4 +27,8 @@ public:
 	string getname();
 	user* getstudent(int n);
 	friend int discipline::count();
+	static group** list();//получение списка групп
+	static int numberof();//получение количества групп
+private:
+	void addgroup(group*);//вспомогательная функция для добавления в список
 };

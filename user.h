@@ -11,6 +11,7 @@ private:
 	group* grp;
 public:
 	user();
+	user(string name);
 	user(int login, int password, string name);
 	void rename(string name);
 	void changepass(int password);

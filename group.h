@@ -17,6 +17,7 @@ private:
 public:
 	group();
 	group(string name);
+	group(string name, user** students,int nstudents,discipline** disciplines, int ndiscips);
 	int adddisc(discipline* disc);
 	int adduser(user* student);
 	void rename(string name);

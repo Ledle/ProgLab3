@@ -6,6 +6,12 @@ user::user() {
 	this->password = 0;
 	this->grp = NULL;
 }
+user::user(string name) {
+	this->name = name; 
+	this->login = 0;
+	this->password = 0;
+	this->grp = NULL;
+}
 user::user(int login, int password, string name) {
 	this->name = name;
 	this->login = login;

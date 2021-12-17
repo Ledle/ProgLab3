@@ -8,6 +8,13 @@ test::test() {
 	this->result = new int[1];
 	this->nres = 0;
 }
+test::test(string name) {
+	this->name = name;
+	this->quest;
+	this->nquests = 0;
+	this->result = new int[1];
+	this->nres = 0;
+}
 test::test(question questions[], int n, string name) {
 	this->name = name;
 	this->quest = new question[n];
@@ -15,6 +22,28 @@ test::test(question questions[], int n, string name) {
 	this->nquests = n;
 	this->result = new int[1];
 	this->nres = 0;
+}
+test::test(test& src) {
+	name = src.name;
+	nquests = src.nquests;
+	quest = new question[nquests];
+	for (int i = 0; i < nquests; i++) {
+		quest[i] = src.quest[i];
+	}
+}
+test& test::operator= (const test& src) {
+	name = src.name;
+	nquests = src.nquests;
+	quest = new question[nquests];
+	for (int i = 0; i < nquests; i++) {
+		quest[i] = src.quest[i];
+	}
+	nres = src.nres;
+	result = new int[nres];
+	for (int i = 0; i < nres; i++) {
+		result[i] = src.result[i];
+	}
+	return *this;
 }
 void test::rename(string name) {
 	this->name = name;

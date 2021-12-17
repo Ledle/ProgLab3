@@ -19,6 +19,14 @@ group::group(string name) {
 	this->nstudents = 0;
 	addgroup(this);
 }
+group::group(string name, user** students, int nstudents, discipline** disciplines, int ndiscips) {
+	this->name = name;
+	this->disciplines = new discipline*[ndiscips];
+	this->students = new user*[nstudents];
+	this->ndiscips = ndiscips;
+	this->nstudents = nstudents;
+	addgroup(this);
+}
 int group::adddisc(discipline* disc) {
 	bool f = false;
 	int i;

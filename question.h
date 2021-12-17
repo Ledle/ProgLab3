@@ -9,6 +9,7 @@ private:
 	int value;
 public:
 	question();
+	question(string text);
 	question(string text, string answer, int value);
 	void change(string text, string answer, int value);
 	string gettext();

@@ -11,7 +11,9 @@ private:
 	question* quest;
 public:
 	test();
+	test(string name);
 	test(question questions[], int n, string name);
+	test(test& src);
 	int addresult(int login, int result);
 	void rename(string name);
 	string getname();
@@ -19,5 +21,6 @@ public:
 	void input();
 	question* getquest(int n);
 	question& getquest1(int n);
+	test& operator= (const test &src);
 };
 

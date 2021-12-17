@@ -16,6 +16,7 @@ private:
 public:
 	discipline();
 	discipline(string name);
+	discipline(string name, group** groups, int ngroups, test** tests, int ntests);
 	int addgroup(group* gr);
 	int addtest(test* tst);
 	string getname();

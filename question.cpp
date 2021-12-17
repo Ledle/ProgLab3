@@ -12,6 +12,11 @@ question::question() {
 	this->answer = "";
 	this->value = 0;
 }
+question::question(string text) {
+	this->text = text;
+	this->answer = "";
+	this->value = 0;
+}
 question::question(string text, string answer, int value) {
 	this->text = text;
 	this->answer = answer;

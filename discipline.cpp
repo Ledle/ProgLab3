@@ -19,6 +19,14 @@ discipline::discipline(string name) {
 	this->ngroups = 0;
 	adddisc(this);
 }
+discipline::discipline(string name, group** groups, int ngroups, test** tests, int ntests) {
+	this->name = name;
+	this->groups = new group*[ngroups];
+	this->tst = new test*[ntests];
+	this->ntests = ntests;
+	this->ngroups = ngroups;
+	adddisc(this);
+}
 int discipline::addgroup(group* gr) {
 	bool f = false;
 	int i;

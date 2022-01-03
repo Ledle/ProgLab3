@@ -1,21 +1,21 @@
 #include "test.h"
 #include "question.h"
 
-test::test() {
+test::test() {//конструктор без параметров
 	this->name = "";
 	this->quest;
 	this->nquests = 0;
 	this->result = new int[1];
 	this->nres = 0;
 }
-test::test(string name) {
+test::test(string name) {//конструктор с одним параметром
 	this->name = name;
 	this->quest;
 	this->nquests = 0;
 	this->result = new int[1];
 	this->nres = 0;
 }
-test::test(question questions[], int n, string name) {
+test::test(question questions[], int n, string name) {//конструктор со всеми параметрами
 	this->name = name;
 	this->quest = new question[n];
 	memcpy(this->quest, questions, sizeof(question) * n);
@@ -23,27 +23,13 @@ test::test(question questions[], int n, string name) {
 	this->result = new int[1];
 	this->nres = 0;
 }
-test::test(test& src) {
+test::test(test& src) {//конструктор копирования 
 	name = src.name;
 	nquests = src.nquests;
 	quest = new question[nquests];
 	for (int i = 0; i < nquests; i++) {
 		quest[i] = src.quest[i];
 	}
-}
-test& test::operator= (const test& src) {
-	name = src.name;
-	nquests = src.nquests;
-	quest = new question[nquests];
-	for (int i = 0; i < nquests; i++) {
-		quest[i] = src.quest[i];
-	}
-	nres = src.nres;
-	result = new int[nres];
-	for (int i = 0; i < nres; i++) {
-		result[i] = src.result[i];
-	}
-	return *this;
 }
 void test::rename(string name) {
 	this->name = name;

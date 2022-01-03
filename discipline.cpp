@@ -3,7 +3,7 @@
 #include "test.h"
 int discipline::ndiscips = 0;
 discipline** discipline::disciplines = new discipline*;
-discipline::discipline() {
+discipline::discipline() {//конструктор без параметров
 	this->name = "";
 	this->groups = new group*;
 	this->tst = new test*;
@@ -11,7 +11,7 @@ discipline::discipline() {
 	this->ngroups = 0;
 	adddisc(this);
 }
-discipline::discipline(string name) {
+discipline::discipline(string name) {//конструктор с одним параметром
 	this->name = name;
 	this->groups = new group*;
 	this->tst = new test*;
@@ -19,7 +19,7 @@ discipline::discipline(string name) {
 	this->ngroups = 0;
 	adddisc(this);
 }
-discipline::discipline(string name, group** groups, int ngroups, test** tests, int ntests) {
+discipline::discipline(string name, group** groups, int ngroups, test** tests, int ntests) {//конструктор со всеми параметрами
 	this->name = name;
 	this->groups = new group*[ngroups];
 	this->tst = new test*[ntests];
@@ -28,6 +28,9 @@ discipline::discipline(string name, group** groups, int ngroups, test** tests, i
 	adddisc(this);
 }
 int discipline::addgroup(group* gr) {
+	if (gr == NULL) {
+		throw invalid_argument("Ссылка не должна быть нулевой");
+	}
 	bool f = false;
 	int i;
 	for (i = 0; i < this->ngroups; i++) {
@@ -47,6 +50,9 @@ int discipline::addgroup(group* gr) {
 	return this->ngroups;
 }
 int discipline::addtest(test* tst) {
+	if (tst == NULL) {
+		throw invalid_argument("Ссылка не должна быть нулевой");
+	}
 	test** buf = new test * [this->ntests + 1];
 	memcpy(buf, this->tst, sizeof(test*) * this->ntests);
 	delete this->tst;
@@ -116,6 +122,9 @@ void discipline::input() {
 	getline(cin, this->name);
 }
 test* discipline::gettest(int n) {
+	if (n > ntests || n < 0) {
+		throw out_of_range("Неверный номер теста");
+	}
 	return this->tst[n];
 }
 string discipline::getname() {
@@ -153,6 +162,9 @@ discipline** discipline::list() {
 	return disciplines;
 }
 void discipline::adddisc(discipline* disc) {
+	if (disc == NULL) {
+		throw invalid_argument("Ссылка не должна быть нулевой");
+	}
 	discipline** buf = new discipline*[ndiscips];
 	memcpy(buf, disciplines, sizeof(discipline*) * ndiscips);
 	ndiscips++;

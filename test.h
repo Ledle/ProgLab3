@@ -21,6 +21,6 @@ public:
 	void input();
 	question* getquest(int n);
 	question& getquest1(int n);
-	test& operator= (const test &src);
+	//test& operator= (const test &src);
 };
 

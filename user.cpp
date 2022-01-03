@@ -1,18 +1,18 @@
 #include "user.h"
 #include "group.h"
-user::user() {
+user::user() {//конструктор без параметров
 	this->name = "";
 	this->login = 0;
 	this->password = 0;
 	this->grp = NULL;
 }
-user::user(string name) {
+user::user(string name) {//конструктор с одним параметром
 	this->name = name; 
 	this->login = 0;
 	this->password = 0;
 	this->grp = NULL;
 }
-user::user(int login, int password, string name) {
+user::user(int login, int password, string name) {//конструктор со всеми параметрами
 	this->name = name;
 	this->login = login;
 	this->password = password;

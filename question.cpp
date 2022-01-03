@@ -7,17 +7,17 @@ question* qsts(int n, question a, ...) {
 	return q;
 }
 
-question::question() {
+question::question() {//конструктор без параметров
 	this->text = "";
 	this->answer = "";
 	this->value = 0;
 }
-question::question(string text) {
+question::question(string text) {//конструктор с одним параметром
 	this->text = text;
 	this->answer = "";
 	this->value = 0;
 }
-question::question(string text, string answer, int value) {
+question::question(string text, string answer, int value) {//конструктор со всеми параметрами
 	this->text = text;
 	this->answer = answer;
 	this->value = value;

@@ -3,7 +3,7 @@
 #include "user.h"
 int group::ngroups = 0;
 group** group::groups = new group*;
-group::group() {
+group::group() {//конструктор без параметров
 	this->name = "";
 	this->disciplines = new discipline*;
 	this->students = new user*;
@@ -11,7 +11,7 @@ group::group() {
 	this->nstudents = 0;
 	addgroup(this);
 }
-group::group(string name) {
+group::group(string name) {//конструктор с одним параметром
 	this->name = name;
 	this->disciplines = new discipline*;
 	this->students = new user*;
@@ -19,7 +19,7 @@ group::group(string name) {
 	this->nstudents = 0;
 	addgroup(this);
 }
-group::group(string name, user** students, int nstudents, discipline** disciplines, int ndiscips) {
+group::group(string name, user** students, int nstudents, discipline** disciplines, int ndiscips) {//конструктор со всеми параметрами
 	this->name = name;
 	this->disciplines = new discipline*[ndiscips];
 	this->students = new user*[nstudents];
@@ -28,6 +28,9 @@ group::group(string name, user** students, int nstudents, discipline** disciplin
 	addgroup(this);
 }
 int group::adddisc(discipline* disc) {
+	if (disc == NULL) {
+		throw invalid_argument("Ссылка не должна быть нулевой");
+	}
 	bool f = false;
 	int i;
 	for (i = 0; i < this->ndiscips; i++) {
@@ -47,6 +50,9 @@ int group::adddisc(discipline* disc) {
 	return this->ndiscips - 1;
 }
 int group::adduser(user* student) {
+	if (student == NULL) {
+		throw invalid_argument("Ссылка не должна быть нулевой");
+	}
 	bool f = false;
 	int i;
 	for (i = 0; i < this->nstudents; i++) {
@@ -152,6 +158,9 @@ group** group::list() {
 	return groups;
 }
 void group::addgroup(group* disc) {
+	if (disc == NULL) {
+		throw invalid_argument("Ссылка не должна быть нулевой");
+	}
 	group** buf = new group * [ngroups];
 	memcpy(buf, groups, sizeof(group*) * ngroups);
 	ngroups++;

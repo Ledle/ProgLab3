@@ -172,3 +172,16 @@ void discipline::adddisc(discipline* disc) {
 	memcpy(disciplines, buf, sizeof(discipline*) * ndiscips);
 	disciplines[ndiscips - 1] = disc;
 }
+ostream& operator<< (std::ostream& out, const discipline& disc) {
+	out << "Discipline "<<disc.name<<":\n";
+	if (disc.ngroups > 0) {
+		out << " Groups:\n";
+		for (int i = 0; i < disc.ngroups; i++) {
+			out << "  "<<i<<")  "<<disc.groups[i]->getname()<<"\n";
+		}
+	}
+	if (disc.ntests >= 0) {
+		out << " Tests: "<<disc.ntests<<"\n";
+	}
+	return out;
+}

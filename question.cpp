@@ -63,3 +63,9 @@ question question::operator++(int) {//постфиксный
 	this->value++;
 	return b;
 }
+ostream& operator<< (std::ostream& out, const question& q) {
+	out << "Text: " << q.text << endl;
+	out << "Answer: " << q.answer;
+	out << "(" << q.value << " balls)" << endl;
+	return out;
+}

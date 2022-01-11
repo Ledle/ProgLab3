@@ -1,12 +1,12 @@
 #include "group.h"
 #include "discipline.h"
-#include "user.h"
+#include "student.h"
 int group::ngroups = 0;
 group** group::groups = new group*;
 group::group() {//конструктор без параметров
 	this->name = "";
 	this->disciplines = new discipline*;
-	this->students = new user*;
+	this->students = new student*;
 	this->ndiscips = 0;
 	this->nstudents = 0;
 	addgroup(this);
@@ -14,15 +14,15 @@ group::group() {//конструктор без параметров
 group::group(string name) {//конструктор с одним параметром
 	this->name = name;
 	this->disciplines = new discipline*;
-	this->students = new user*;
+	this->students = new student*;
 	this->ndiscips = 0;
 	this->nstudents = 0;
 	addgroup(this);
 }
-group::group(string name, user** students, int nstudents, discipline** disciplines, int ndiscips) {//конструктор со всеми параметрами
+group::group(string name, student** students, int nstudents, discipline** disciplines, int ndiscips) {//конструктор со всеми параметрами
 	this->name = name;
 	this->disciplines = new discipline*[ndiscips];
-	this->students = new user*[nstudents];
+	this->students = new student*[nstudents];
 	this->ndiscips = ndiscips;
 	this->nstudents = nstudents;
 	addgroup(this);
@@ -49,26 +49,23 @@ int group::adddisc(discipline* disc) {
 	disc->addgroup(this);
 	return this->ndiscips - 1;
 }
-int group::adduser(user* student) {
-	if (student == NULL) {
-		throw invalid_argument("Ссылка не должна быть нулевой");
-	}
+int group::adduser(student* stnt) {
 	bool f = false;
 	int i;
 	for (i = 0; i < this->nstudents; i++) {
-		if (this->students[i]->getlogin() == student->getlogin()) {
+		if (this->students[i]->getlogin() == stnt->getlogin()) {
 			f = true;
 			break;
 		}
 	}
 	if (f) { return i; }
-	user** buf = new  user * [this->nstudents + 1];
-	memcpy(buf, this->students, sizeof(user*) * (this->nstudents));
-	buf[this->nstudents] = student;
+	student** buf = new student * [this->nstudents + 1];
+	memcpy(buf, this->students, sizeof(student*) * (this->nstudents));
+	buf[this->nstudents] = stnt;
 	delete this->students;
 	this->students = buf;
 	this->nstudents++;
-	student->changegroup(this);//разумное использование this
+	stnt->changegroup(this);//разумное использование this
 	return this->nstudents - 1;
 }
 void group::rename(string name) {
@@ -110,8 +107,8 @@ void group::delstudent(int login) {
 		for (int i = numberuser; i < this->nstudents; i++) {
 			this->students[i] = this->students[i + 1];
 		}
-		user** buf = new user * [this->nstudents];
-		memcpy(buf, this->students, sizeof(user*) * this->nstudents);
+		student** buf = new student * [this->nstudents];
+		memcpy(buf, this->students, sizeof(student*) * this->nstudents);
 		delete[] this->students;
 		this->students = buf;
 	}
@@ -136,16 +133,16 @@ void group::input() {
 	printf_s("Enter number of students: ");
 	scanf_s("%d", &(this->nstudents));
 	while (getchar() != '\n');
-	this->students = new user * [this->nstudents];
+	this->students = new student * [this->nstudents];
 	for (int i = 0; i < this->nstudents; i++) {
-		this->students[i] = new user;
+		this->students[i] = new student;
 		this->students[i]->input();
 	}
 }
 string group::getname() {
 	return this->name;
 }
-user* group::getstudent(int n) {
+student* group::getstudent(int n) {
 	if (n >= this->nstudents) {
 		return NULL;
 	}
@@ -167,4 +164,19 @@ void group::addgroup(group* disc) {
 	groups = new group * [ngroups];
 	memcpy(groups, buf, sizeof(group*) * ngroups);
 	groups[ngroups - 1] = disc;
+}
+ostream& operator<< (std::ostream& out, const group& gr) {
+	out << "Group "<<gr.name<<":\n";
+	if (gr.nstudents > 0) {
+		for (int i = 0; i < gr.nstudents; i++) {
+			out << " "<<i<<") Name:  "<<gr.students[i]->getname()<<" Login: "<<gr.students[i]->getlogin()<<"\n";
+		}
+	}
+	if (gr.ndiscips > 0) {
+		out << " Disciplines:\n";
+		for (int i = 0; i < gr.ndiscips; i++) {
+			out << "  "<<i<<") Discipline: "<<gr.disciplines[i]->getname()<<"\n";
+		}
+	}
+	return out;
 }

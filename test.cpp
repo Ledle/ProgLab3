@@ -83,3 +83,19 @@ question* test::getquest(int n) {
 question& test::getquest1(int n) {
 	return this->quest[n];
 }
+ostream& operator<< (std::ostream& out, const test& t) {
+	out << "Test " << t.name << endl;
+	if (t.nquests > 0) {
+		out << " Questions:\n";
+		for (int i = 0; i < t.nquests; i++) {
+			out << "  "<<i<< ")Question:"<< t.quest[i].gettext() << "\n   Answer: "<<t.quest[i].getanswer()<<"("<<t.quest[i].getvalue()<<" points)\n";
+		}
+	}
+	if (t.nres > 0) {
+		out << " Results:\n";
+		for (int i = 0; i < t.nres; i++) {
+			out << "  " <<i<<") Login: " <<t.result[i * 2]<<" Result: " <<t.result[i * 2 + 1]<<"\n";
+		}
+	}
+	return out;
+}

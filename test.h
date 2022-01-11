@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "object.h"
 using namespace std;
 class question;
-class test
+class test : object
 {
 private:
 	int nres, nquests, * result;
@@ -21,6 +22,6 @@ public:
 	void input();
 	question* getquest(int n);
 	question& getquest1(int n);
-	//test& operator= (const test &src);
+	friend ostream& operator<< (std::ostream& out, const test& t);
 };
 

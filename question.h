@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "object.h"
 using namespace std;
-class question
+class question : object
 {
 private:
 	string text, answer;
@@ -20,6 +21,7 @@ public:
 	question operator+(int n);
 	question operator++(int);
 	question operator++();
+	friend ostream& operator<< (std::ostream& out, const question& q);
 };
 
 question* qsts(int n, question a, ...);

@@ -1,26 +1,23 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "object.h"
 using namespace std;
 class group;
-class user
+class user : object
 {
-private:
+protected:
 	int login, password;
 	string name;
-	group* grp;
 public:
 	user();
 	user(string name);
 	user(int login, int password, string name);
 	void rename(string name);
 	void changepass(int password);
-	void changegroup(group* gr);
 	void show();
 	void input();
 	string getname();
 	int getlogin();
-	group* getgroup();
 	int getpass();
 };
-

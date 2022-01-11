@@ -141,15 +141,22 @@
   <ItemGroup>
     <ClCompile Include="discipline.cpp" />
     <ClCompile Include="group.cpp" />
+    <ClCompile Include="guest.cpp" />
     <ClCompile Include="ProgLab3.cpp" />
     <ClCompile Include="question.cpp" />
+    <ClCompile Include="student.cpp" />
+    <ClCompile Include="teacher.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="discipline.h" />
     <ClInclude Include="group.h" />
+    <ClInclude Include="guest.h" />
+    <ClInclude Include="object.h" />
     <ClInclude Include="question.h" />
+    <ClInclude Include="student.h" />
+    <ClInclude Include="teacher.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>

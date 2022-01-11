@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "object.h"
 using namespace std;
 class test;
 class group;
-class discipline
+class discipline : object
 {
 private:
 	int ntests, ngroups;
@@ -29,6 +30,7 @@ public:
 	int count();
 	static discipline** list();//получение списка дисциплин
 	static int numberof();//получение количества дисциплин
+	friend ostream& operator<< (std::ostream& out, const discipline& disc);
 private:
 	void adddisc(discipline*);//вспомогательная функция для добавления в список
 };
